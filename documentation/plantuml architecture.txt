@@ -1,0 +1,90 @@
+@startuml
+!define RECTANGLE class
+
+title Масштабируемая Архитектура Системы Автоматизированной Юридической Поддержки
+
+skinparam rectangle {
+  BackgroundColor #F0F0F0
+  BorderColor #333333
+  FontName Arial
+  FontSize 12
+}
+
+' Пользовательский интерфейс
+rectangle Frontend << (JS, JavaScript) >> {
+  [User Interface]
+}
+
+' API Gateway для управления запросами
+rectangle "API Gateway" << (Java, Java) >> as APIGateway {
+  [Load Balancer]
+}
+
+' Микросервисы
+rectangle OCR_Service << (Python, ML) >> as OCR {
+  [OCR Service]
+}
+
+rectangle Structure_Analysis_Service << (Python, ML) >> as StructureAnalysis {
+  [Structure Analysis Service]
+}
+
+rectangle Database_Service << (Java, Web) >> as Database {
+  [Database Service]
+}
+
+rectangle Report_Generation_Service << (Java, Web) >> as ReportGeneration {
+  [Report Generation Service]
+}
+
+rectangle Adapter_Service << (Java, Web) >> as Adapter {
+  [Adapter Service]
+}
+
+' Внешние сервисы
+rectangle "External Services" as ExternalServices {
+  [HR System]
+  [Legal Repository]
+}
+
+' Базы данных
+database "MongoDB" as MongoDB {
+  [Файлы (Сканы Документов)]
+}
+
+database "PostgresDB" as PostgresDB {
+  [Пользователи и Роли]
+}
+
+' Сообщения и коммуникация
+queue "Apache Kafka" as Kafka {
+  [Event Bus]
+}
+
+cloud "gRPC" as gRPC
+
+' Взаимодействие компонентов
+Frontend --> APIGateway : HTTP Requests (PDF, DOCX и др.)
+APIGateway --> OCR : gRPC Calls (Изображения/Сканы)
+OCR --> Kafka : Publish Document Processed Event
+Kafka --> StructureAnalysis : Subscribe Document Processed Event
+StructureAnalysis --> Kafka : Publish Analysis Completed Event
+Kafka --> ReportGeneration : Subscribe Analysis Completed Event
+ReportGeneration --> Frontend : HTTP Responses (Отчеты и рекомендации)
+APIGateway --> Database : REST API Calls (Пользователи и Роли)
+Adapter --> ExternalServices : REST/gRPC Integration
+
+' Базы данных
+OCR --> MongoDB : Сохранение Сканов
+Database --> PostgresDB : Доступ к данным пользователей
+
+' Масштабируемость
+package "Кластер Микросервисов" {
+ rectangle OCR1
+ rectangle StructureAnalysis1
+ rectangle Database1
+ rectangle ReportGeneration1
+ rectangle Adapter1
+}
+
+@enduml
