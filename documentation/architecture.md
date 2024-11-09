@@ -1,3 +1,9 @@
+Схема архитектуры
+https://drive.google.com/file/d/1P17FDdFxDRofpgZXjbEVwjHOprQhYrKr/view?usp=sharing
+
+![Архитектура](./Архитектура%20решения.jpg)
+
+
 Объяснение Архитектуры
 Frontend (JavaScript):
 
