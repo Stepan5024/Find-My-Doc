@@ -1,9 +1,168 @@
 Схема архитектуры
 https://drive.google.com/file/d/1P17FDdFxDRofpgZXjbEVwjHOprQhYrKr/view?usp=sharing
+# Архитектура системы
+
+## Основные компоненты
+
+1. **UI (JS)** - Пользовательский интерфейс для взаимодействия с системой.
+2. **API Gateway (Java Spring Boot)** - Центральная точка маршрутизации и обработки запросов:
+    - Авторизация пользователя.
+    - Загрузка документов.
+    - Запуск проверок и отображение отчетов.
+3. **Auth Server (Java Spring Boot)** - Сервис аутентификации и авторизации пользователей.
+4. **База данных (PostgresDB)** - Хранение данных о пользователях и их ролях.
+5. **Report Generation Service (Java Spring Boot)** - Генерация отчетов на основе загруженных файлов.
+6. **База данных (MongoDB)** - Хранение файлов сканов документов, результатов распознавания и аналитики форм.
+
+## Взаимодействие с очередями и анализом
+
+1. **Очередь на распознавание файлов (Kafka)** - Очередь для задач по распознаванию текста.
+2. **OCR Service (Python, ML)** - Сервис, выполняющий OCR-распознавание документов:
+    - Публикует событие завершения распознавания.
+3. **Очередь на семантический анализ (Kafka)** - Очередь для задач по семантическому анализу документов.
+4. **Structure Analysis Service (Python, ML)** - Сервис, выполняющий семантический анализ:
+    - Публикует событие завершения анализа.
+5. **Очередь на генерацию отчета (Kafka)** - Очередь для запуска процесса генерации отчета.
+
+## Вспомогательные сервисы
+
+1. **Parser Service (Java Spring Boot)** - Обновляет аналитику и формы, отправляя данные в Legal Repository.
+2. **Legal Repository** - Хранилище юридической информации и форм.
+3. **Adapter Service (Java Spring Boot)** - Адаптер для интеграции с другими системами, предоставляющий API и токены:
+    - Интеграция с **HR System**.
+    - Интеграция с **Factory ERP**.
+
+## Процесс работы
+
+1. Пользователь через UI загружает документ в систему.
+2. API Gateway перенаправляет запросы на нужные сервисы:
+    - Авторизация пользователя через Auth Server.
+    - Запуск проверки и передача документа в очередь на распознавание.
+3. OCR Service выполняет распознавание текста и публикует результат.
+4. Результат поступает в очередь на семантический анализ.
+5. Structure Analysis Service анализирует структуру документа и публикует событие окончания.
+6. Документ поступает в очередь на генерацию отчета, где Report Generation Service создает итоговый отчет, доступный пользователю через UI.
+
 
 ![Архитектура](./Архитектура%20решения.jpg)
 
+```
+project-root/
+│
+├── api-gateway/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── ru/aidoc/apigateway/
+│   │   │   │       ├── config/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── service/
+│   │   │   │       └── util/
+│   │   │   └── resources/
+│   │   │       └── application.yml
+│   └── Dockerfile
+│
+├── auth-server/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── ru/aidoc/authserver/
+│   │   │   │       ├── config/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── service/
+│   │   │   │       └── util/
+│   │   │   └── resources/
+│   │   │       └── application.yml
+│   └── Dockerfile
+│
+├── report-generation-service/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── ru/aidoc/reportgeneration/
+│   │   │   │       ├── config/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── service/
+│   │   │   │       └── util/
+│   │   │   └── resources/
+│   │   │       └── application.yml
+│   └── Dockerfile
+│
+├── parser-service/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── ru/aidoc/parserservice/
+│   │   │   │       ├── config/
+│   │   │   │       ├── service/
+│   │   │   │       └── util/
+│   │   │   └── resources/
+│   │   │       └── application.yml
+│   └── Dockerfile
+│
+├── adapter-service/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── ru/aidoc/adapterservice/
+│   │   │   │       ├── config/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── service/
+│   │   │   │       └── util/
+│   │   │   └── resources/
+│   │   │       └── application.yml
+│   └── Dockerfile
+│
+├── ocr-service/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── python/
+│   │   │   │   ├── ocr_service.py
+│   │   │   │   ├── config.py
+│   │   │   │   └── utils/
+│   │   │   └── resources/
+│   └── Dockerfile
+│
+├── structure-analysis-service/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── python/
+│   │   │   │   ├── analysis_service.py
+│   │   │   │   ├── config.py
+│   │   │   │   └── utils/
+│   │   │   └── resources/
+│   └── Dockerfile
+│
+├── config/
+│   ├── kafka/
+│   │   ├── kafka-config.yml
+│   │   └── kafka-topics.yml
+│   ├── mongo/
+│   │   └── mongo-init.js
+│   └── postgres/
+│       └── postgres-init.sql
+│
+├── common-libraries/
+│   ├── utils/
+│   │   ├── logging/
+│   │   ├── error-handling/
+│   │   └── kafka/
+│   ├── models/
+│   └── Dockerfile
+│
+├── docs/
+│   ├── frontend.md
+│   ├── backend.md
+│   ├── ocr.md
+│   ├── kafka.md
+│   ├── development-guidelines.md
+│   └── semantic-analysis.md
+│
+├── docker-compose.yml
+└── README.md
 
+
+```
 Объяснение Архитектуры
 Frontend (JavaScript):
 

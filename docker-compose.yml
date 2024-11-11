@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: aidoc_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: aidoc_user
+      POSTGRES_PASSWORD: aidoc_password
+      POSTGRES_DB: aidoc_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./api-gateway/src/main/resources/config/postgres/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+    networks:
+      - aidoc_network
+
+  api-gateway:
+    image: aidoc-api-gateway:latest
+    container_name: aidoc_api_gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_db
+      SPRING_DATASOURCE_USERNAME: aidoc_user
+      SPRING_DATASOURCE_PASSWORD: aidoc_password
+      JWT_SECRET: YourJWTSecretKey
+    networks:
+      - aidoc_network
+
+volumes:
+  postgres_data:
+
+networks:
+  aidoc_network:
+    driver: bridge
