@@ -1,4 +1,4 @@
-# Find-My-Doc/api-gateway/Dockerfile
+# Find-My-Doc/auth-server/Dockerfile
 # Build stage
 FROM maven:3.8.4-openjdk-17 as build
 WORKDIR /app
@@ -9,6 +9,6 @@ RUN mvn clean package -DskipTests
 # Run stage
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/api-gateway-1.0-SNAPSHOT.jar app.jar
-EXPOSE 8080
+COPY --from=build /app/target/auth-server-1.0-SNAPSHOT.jar app.jar
+EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]

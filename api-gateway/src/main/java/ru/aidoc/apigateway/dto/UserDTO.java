@@ -1,25 +1,26 @@
 package ru.aidoc.apigateway.dto;
 
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * DTO для передачи информации о пользователе.
- */
-@Getter
-public record UserDTO(
-        UUID userId,
-        String email,
-        String firstName,
-        String lastName,
-        String middleName,
-        String phoneNumber,
-        String status,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt,
-        Set<RoleDTO> roles
-) {}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO {
+    private UUID userId;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String phoneNumber;
+    private String status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private Set<RoleDTO> roles;
+}

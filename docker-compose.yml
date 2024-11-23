@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -8,28 +8,47 @@ services:
     environment:
       POSTGRES_USER: aidoc_user
       POSTGRES_PASSWORD: aidoc_password
-      POSTGRES_DB: aidoc_db
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./api-gateway/src/main/resources/config/postgres/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+      - ./config/postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aidoc_user -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aidoc_network
+
+
+  auth-server:
+    build: ./auth-server
+    container_name: aidoc_auth_server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_auth_db
+      SPRING_DATASOURCE_USERNAME: aidoc_user
+      SPRING_DATASOURCE_PASSWORD: aidoc_password
+    ports:
+      - "8081:8081"
     networks:
       - aidoc_network
 
   api-gateway:
-    image: aidoc-api-gateway:latest
+    build: ./api-gateway
     container_name: aidoc_api_gateway
-    restart: always
-    ports:
-      - "8080:8080"
     depends_on:
-      - postgres
+      - auth-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
-      JWT_SECRET: YourJWTSecretKey
+    ports:
+      - "8080:8080"
     networks:
       - aidoc_network
 

@@ -1,13 +1,15 @@
 package ru.aidoc.apigateway.config;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
-import ru.aidoc.apigateway.utils.JwtUtil;
 
 /**
  * Конфигурация ReactiveAuthenticationManager.
@@ -15,29 +17,24 @@ import ru.aidoc.apigateway.utils.JwtUtil;
 @Configuration
 public class AuthenticationManagerConfig {
 
-    private final JwtUtil jwtUtil;
-    private final ReactiveUserDetailsService userDetailsService;
-
-    public AuthenticationManagerConfig(JwtUtil jwtUtil, ReactiveUserDetailsService userDetailsService) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
+    @Bean
+    public ReactiveUserDetailsService userDetailsService() {
+        return username -> Mono.just(User.withUsername(username)
+                .password(passwordEncoder().encode("password"))
+                .roles("USER")
+                .build());
     }
 
     @Bean
-    public ReactiveAuthenticationManager authenticationManager() {
-        return authentication -> {
-            String authToken = authentication.getCredentials().toString();
-            if (jwtUtil.validateToken(authToken)) {
-                String username = jwtUtil.getUsernameFromToken(authToken);
-                return userDetailsService.findByUsername(username)
-                        .map(userDetails -> new UsernamePasswordAuthenticationToken(
-                                userDetails.getUsername(),
-                                null,
-                                userDetails.getAuthorities()))
-                        .cast(Authentication.class);
-            } else {
-                return Mono.empty();
-            }
-        };
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ReactiveAuthenticationManager authenticationManager(ReactiveUserDetailsService userDetailsService) {
+        UserDetailsRepositoryReactiveAuthenticationManager authManager =
+                new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
+        authManager.setPasswordEncoder(passwordEncoder());
+        return authManager;
     }
 }
