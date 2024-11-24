@@ -16,13 +16,8 @@ public record RegisterRequest(
         @Size(min = 6, message = "Пароль должен содержать минимум 6 символов")
         String password,
 
-        @NotBlank(message = "Имя не может быть пустым")
         String firstName,
-
-        @NotBlank(message = "Фамилия не может быть пустой")
         String lastName,
-
         String middleName,
-
         String phoneNumber
 ) {}

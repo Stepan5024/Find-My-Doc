@@ -1,0 +1,130 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: auth-server
+
+  # Конфигурация базы данных
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aidoc_auth_db
+    username: aidoc_user
+    password: aidoc_password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      pool-name: AuthHikariPool
+
+  # Конфигурация JPA
+  jpa:
+    hibernate:
+      ddl-auto: update # В продакшене измените на validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  # Конфигурация Jackson
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: UTC
+
+  # Конфигурация Web
+  web:
+    resources:
+      add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+    log-resolved-exception: true
+
+# JWT Configuration
+jwt:
+  secret: bXlTdXBlclNlY3JldEtleUZvckp3dFRva2VuR2VuZXJhdGlvbkFuZFZhbGlkYXRpb24= #your-secret-key-should-be-at-least-32-characters-long-for-security
+  expiration: 86400000  # 24 часа в миллисекундах
+  header: Authorization
+  prefix: "Bearer "
+
+# Конфигурация логирования
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    ru.aibok.auth: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/auth-server.log
+    max-size: 10MB
+    max-history: 30
+
+# Конфигурация безопасности
+security:
+  # Разрешенные пути без аутентификации
+  permitted-paths:
+    - /auth/register
+    - /auth/login
+    - /actuator/health
+    - /swagger-ui/**
+    - /v3/api-docs/**
+
+  # Настройки пароля
+  password:
+    min-length: 6
+    require-special-char: true
+    require-number: true
+    require-uppercase: true
+
+# Настройки актуатора для мониторинга
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+  health:
+    db:
+      enabled: true
+
+# Настройки CORS
+cors:
+  allowed-origins: "*"
+  allowed-methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+  allowed-headers: "*"
+  exposed-headers: "Authorization,Link,X-Total-Count,X-${spring.application.name}-alert,X-${spring.application.name}-error,X-${spring.application.name}-params"
+  allow-credentials: true
+  max-age: 1800
+
+# Дополнительные настройки приложения
+app:
+  auth:
+    token-validity-in-seconds: 86400
+    token-validity-in-seconds-for-remember-me: 2592000
+  mail:
+    from: noreply@yourdomain.com
+    base-url: http://localhost:8081
+  async:
+    core-pool-size: 2
+    max-pool-size: 50
+    queue-capacity: 10000
