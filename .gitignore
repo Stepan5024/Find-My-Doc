@@ -165,3 +165,4 @@ documentation/.DS_Store
 .DS_Store
 /.idea
 /.idea
+.vscode/settings.json
