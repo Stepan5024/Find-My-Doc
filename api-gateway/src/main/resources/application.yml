@@ -2,6 +2,8 @@ server:
   port: 8080  # Порт для API Gateway
 
 spring:
+  profiles:
+    active: local
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
