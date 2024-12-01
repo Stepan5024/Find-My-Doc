@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import ru.aidoc.apigateway.dto.AuthRequest;
 import ru.aidoc.apigateway.dto.AuthResponse;
 import ru.aidoc.apigateway.dto.RegisterRequest;
+import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -29,6 +30,8 @@ import ru.aidoc.apigateway.dto.RegisterRequest;
 public class AuthController {
 
     private final WebClient webClient;
+    @Value("${webclient.auth-server-url}")
+    private String authServerUrl;
 
     public AuthController(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.build();
@@ -39,7 +42,7 @@ public class AuthController {
         log.info("Attempting to register user with email: {}", registerRequest.email());
 
         return webClient.post()
-                .uri("http://localhost:8081/auth/register")
+                .uri(authServerUrl + "/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(registerRequest)
                 .exchangeToMono(response -> {
@@ -73,7 +76,7 @@ public class AuthController {
         log.info("Login attempt for user: {}", authRequest.email());
 
         return webClient.post()
-                .uri("http://localhost:8081/auth/login")
+                .uri(authServerUrl +"/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(authRequest)
                 .retrieve()

@@ -22,7 +22,6 @@ services:
     networks:
       - aidoc_network
 
-
   auth-server:
     build: ./auth-server
     container_name: aidoc_auth_server
@@ -33,6 +32,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_auth_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8081:8081"
     networks:
@@ -47,6 +47,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8080:8080"
     networks:
