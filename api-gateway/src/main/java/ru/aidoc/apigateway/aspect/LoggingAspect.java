@@ -9,15 +9,16 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import ru.sbrf.file_loader.aspect.annotation.Loggable;
-import ru.sbrf.file_loader.util.JsonUtil;
+import ru.aidoc.apigateway.aspect.annotation.Loggable;
+import ru.aidoc.apigateway.utils.JsonUtil;
+
 
 @Component
 @Aspect
 @Slf4j
 public class LoggingAspect {
 
-    @Pointcut("@annotation(ru.sbrf.file_loader.aspect.annotation.Loggable)")
+    @Pointcut("@annotation(ru.aidoc.apigateway.aspect.annotation.Loggable)")
     public void loggableMethods() {}
 
     @Around("loggableMethods()")
