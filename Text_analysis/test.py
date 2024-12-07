@@ -51,15 +51,15 @@ def calculate_similarity(model_path, sentence1, sentence2):
         return None
 
 
-if __name__ == "__main__":
-    model_path = "Text_analysis/models/mpnet-base-all-nli-triplet/final"  # Replace with your model path
+# if __name__ == "__main__":
+#     model_path = "Text_analysis\models\mpnet-base-all-nli-triplet\Final"  # Replace with your model path
 
-    sentence1 = input("Enter the first sentence: ")
-    sentence2 = input("Enter the second sentence: ")
+#     sentence1 = input("Enter the first sentence: ")
+#     sentence2 = input("Enter the second sentence: ")
 
-    similarity = calculate_similarity(model_path, sentence1, sentence2)
+#     similarity = calculate_similarity(model_path, sentence1, sentence2)
 
-    if similarity is not None:
-        print(f"Cosine similarity: {similarity:.4f}") #Print to 4 decimal places for better readability.
-    else:
-        print("Similarity calculation failed.")
+#     if similarity is not None:
+#         print(f"Cosine similarity: {similarity:.4f}") #Print to 4 decimal places for better readability.
+#     else:
+#         print("Similarity calculation failed.")
