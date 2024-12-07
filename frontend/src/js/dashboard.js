@@ -227,5 +227,5 @@ function showSuccess(message) {
 window.logout = function() {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
-    //window.location.href = '/login';
+    window.location.href = '/login';
 }

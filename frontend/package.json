@@ -2,12 +2,13 @@
   "name": "find-my-doc-frontend",
   "version": "1.0.0",
   "description": "Frontend for Find-My-Doc application",
-  "main": "src/js/index.js",
+  "main": "src/js/dashboard.js",
   "scripts": {
+    "clean": "rimraf build",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production"
   },
-  "author": "Ваше Имя",
+  "author": "Find My Doc",
   "license": "MIT",
   "dependencies": {
     "react": "^18.2.0",
@@ -20,6 +21,7 @@
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
+    "rimraf": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.5",
     "style-loader": "^3.3.2",

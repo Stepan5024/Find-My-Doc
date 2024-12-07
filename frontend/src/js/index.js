@@ -1,17 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import '../css/styles.css'; // Подключение глобальных стилей (опционально)
+import '../css/styles.css';
 
-// Главный компонент приложения
-const App = () => {
-    return (
-        <div>
-            <h1>Welcome to Find My Doc!</h1>
-            <p>Your application is now running.</p>
-        </div>
-    );
-};
 
-// Найдите элемент с id="root" в index.html и отрендерите приложение
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+document.addEventListener('DOMContentLoaded', function () {
+    const token = localStorage.getItem('token');
+    const loginButton = document.getElementById('loginButton');
+    const registerButton = document.getElementById('registerButton');
+    const dashboardButton = document.getElementById('dashboardButton');
+
+    if (token) {
+        // Пользователь залогинен
+        loginButton.style.display = 'none';
+        registerButton.style.display = 'none';
+        dashboardButton.style.display = 'inline-block';
+    } else {
+        // Пользователь не залогинен
+        loginButton.style.display = 'inline-block';
+        registerButton.style.display = 'inline-block';
+        dashboardButton.style.display = 'none';
+    }
+});
