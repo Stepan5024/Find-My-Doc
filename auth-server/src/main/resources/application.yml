@@ -9,6 +9,8 @@ server:
 spring:
   application:
     name: auth-server
+  profiles:
+    active: local
 
   # Конфигурация базы данных
   datasource:

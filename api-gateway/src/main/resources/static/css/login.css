@@ -8,14 +8,6 @@
     font-size: 14px;
 }
 
-.form-error {
-    border-color: #dc3545 !important;
-}
-
-.shake {
-    animation: shake 0.5s;
-}
-
 @keyframes shake {
 
     0%,

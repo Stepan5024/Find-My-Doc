@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-    <script src="/js/dashboard.js"></script>
+<script src="/js/dashboard.js"></script>
 <header class="header">
     <h1>Find-My-Doc</h1>
     <div class="nav-buttons">
@@ -85,7 +85,7 @@
 
 <script>
     // Проверка авторизации при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const token = localStorage.getItem('token');
         if (!token) {
             window.location.href = '/login';
@@ -127,7 +127,7 @@
         const token = localStorage.getItem('token');
         const originalFetch = window.fetch;
 
-        window.fetch = function() {
+        window.fetch = function () {
             let [resource, config] = arguments;
             if (!config) {
                 config = {};
@@ -179,7 +179,7 @@
                 const userData = await response.json();
                 fillProfileForm(userData);
             } else {
-               // showError('Ошибка загрузки профиля');
+                // showError('Ошибка загрузки профиля');
             }
         } catch (error) {
             showError('Ошибка соединения с сервером');
