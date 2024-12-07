@@ -1,0 +1,80 @@
+.tab-container {
+    margin-top: 20px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    background-color: #f8f9fa;
+}
+
+.tab.active {
+    border: 1px solid #ddd;
+    border-bottom-color: white;
+    background-color: white;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.profile-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.profile-form .form-group {
+    margin-bottom: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.success-message {
+    color: #155724;
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: none;
+}

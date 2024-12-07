@@ -1,2 +1,14 @@
 webclient:
   auth-server-url: http://localhost:8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: aidoc_user
+    password: aidoc_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # Используйте "update", чтобы автоматически обновлять схему, или "none" для отключения
+    show-sql: true # Отображение SQL-запросов в консоли
+    defer-datasource-initialization: true

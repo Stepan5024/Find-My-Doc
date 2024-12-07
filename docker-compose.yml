@@ -29,10 +29,10 @@ services:
       postgres:
         condition: service_healthy
     environment:
+      SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_auth_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
-      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8081:8081"
     networks:
@@ -44,10 +44,10 @@ services:
     depends_on:
       - auth-server
     environment:
+      SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
-      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8080:8080"
     networks:
