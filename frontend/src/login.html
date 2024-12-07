@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход - Find-My-Doc</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<script src="/js/login.js"></script>
+<header class="header">
+    <h1>Find-My-Doc</h1>
+    <div class="nav-buttons">
+        <a href="/" class="button">На главную</a>
+    </div>
+</header>
+
+<div class="form-container">
+    <h2>Вход в систему</h2>
+    <div id="errorMessage" class="error-message"></div>
+    <div id="loading" class="loading">Выполняется вход</div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="button">Войти</button>
+    </form>
+
+    <p class="form-note">
+        Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+    </p>
+</div>
+</body>
+</html>

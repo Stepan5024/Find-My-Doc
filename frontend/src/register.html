@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация - Find-My-Doc</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+<body>
+<script src="/js/register.js"></script>
+<header class="header">
+    <h1>Find-My-Doc</h1>
+    <div class="nav-buttons">
+        <a href="/" class="button">На главную</a>
+    </div>
+</header>
+
+<div class="form-container">
+    <h2>Регистрация</h2>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="firstName">Имя:</label>
+            <input type="text" id="firstName" name="firstName">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия:</label>
+            <input type="text" id="lastName" name="lastName">
+        </div>
+        <div class="form-group">
+            <label for="middleName">Отчество:</label>
+            <input type="text" id="middleName" name="middleName">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Телефон:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber">
+        </div>
+        <p class="form-note">* - обязательные поля</p>
+        <button type="submit" class="button">Зарегистрироваться</button>
+    </form>
+    <p class="form-note">
+        Есть аккаунт? <a href="/login">Войти</a>
+    </p>
+</div>
+</body>
+</html>

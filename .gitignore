@@ -166,3 +166,5 @@ documentation/.DS_Store
 /.idea
 /.idea
 .vscode/settings.json
+/frontend/node
+/frontend/node_modules
