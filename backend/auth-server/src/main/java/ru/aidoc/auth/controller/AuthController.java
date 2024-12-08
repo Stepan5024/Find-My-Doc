@@ -2,12 +2,16 @@ package ru.aidoc.auth.controller;
 
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.aidoc.auth.dto.AuthRequest;
+import ru.aidoc.auth.dto.AuthResponse;
+import ru.aidoc.auth.dto.RegisterRequest;
 import ru.aidoc.auth.service.AuthService;
 
 
@@ -16,7 +20,7 @@ import ru.aidoc.auth.service.AuthService;
 @RequiredArgsConstructor
 public class AuthController {
 
-    /*private final AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
@@ -38,5 +42,5 @@ public class AuthController {
         }
     }
 
-     */
+
 }

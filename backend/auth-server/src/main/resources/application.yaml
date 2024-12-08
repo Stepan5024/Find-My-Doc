@@ -2,10 +2,3 @@ server:
   port: 8081
 
 
-# JWT Configuration
-jwt:
-  secret: bXlTdXBlclNlY3JldEtleUZvckp3dFRva2VuR2VuZXJhdGlvbkFuZFZhbGlkYXRpb24=
-  #your-secret-key-should-be-at-least-32-characters-long-for-security
-  expiration: 86400000  # 24 часа в миллисекундах
-  header: Authorization
-  prefix: "Bearer "

@@ -35,11 +35,6 @@ public class WebController {
         return "forward:/dashboard.html";
     }
 
-    // Add a method to validate the token (implement according to your authentication logic)
-    private boolean isValidToken(String authHeader) {
-        // Validate the token and return true if valid, false otherwise
-        return true; // Replace with actual validation
-    }
 
    /* @GetMapping("/dashboard")
     public Mono<String> dashboard(ServerWebExchange exchange) {

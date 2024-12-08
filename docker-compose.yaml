@@ -1,13 +1,15 @@
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:14-alpine
+    container_name: fmd-db
     restart: always
     environment:
-      POSTGRES_USER: aidoc_user
-      POSTGRES_PASSWORD: aidoc_password
-      POSTGRES_DB: aidoc_postgres_db
+      - POSTGRES_USER=aidoc_user
+      - POSTGRES_PASSWORD=aidoc_password
+      - POSTGRES_DB=fmdDB
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./config/postgres/init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
 
@@ -15,12 +17,7 @@ services:
     build:
       context: .
       dockerfile: docker/api-gateway/Dockerfile
-    depends_on:
-      - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_postgres_db
-      SPRING_DATASOURCE_USERNAME: aidoc_user
-      SPRING_DATASOURCE_PASSWORD: aidoc_password
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8080:8080"
@@ -32,7 +29,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_postgres_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fmdDB
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
       SPRING_PROFILES_ACTIVE: docker

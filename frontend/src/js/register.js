@@ -36,7 +36,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             // Перенаправляем на dashboard
             window.location.href = '/dashboard';
         } else {
-            alert('Token not received');
+            //alert('Token not received');
+            window.location.href = '/dashboard'; // TODO потом убрать
         }
     } catch (error) {
         console.error('Error:', error);

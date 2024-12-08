@@ -3,7 +3,7 @@ package ru.aidoc.auth.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import ru.aidoc.auth.dto.AuthRequest;
 import ru.aidoc.auth.dto.AuthResponse;
@@ -23,9 +23,8 @@ import java.util.UUID;
 public class AuthService {
 
     private final UserRepository userRepository;
-    //private final PasswordEncoder passwordEncoder;
+
     private final RoleRepository roleRepository;
-    private final JwtService jwtService;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -36,7 +35,7 @@ public class AuthService {
         User user = new User();
         user.setUserId(UUID.randomUUID()); // Генерируем UUID
         user.setEmail(request.getEmail());
-        //user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setPasswordHash(request.getPassword());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setMiddleName(request.getMiddleName());
@@ -58,22 +57,22 @@ public class AuthService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getRoles().stream().map(Role::getRoleName).toList());
 
-        String token = jwtService.generateToken(claims, user.getEmail());
-        return new AuthResponse(token, "Bearer", user.getEmail(), "ROLE_USER");
+
+        return new AuthResponse("", "Bearer", user.getEmail(), "ROLE_USER");
     }
 
     public AuthResponse login(AuthRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
 
-       /* if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+     /*   if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new IllegalArgumentException("Неверный пароль");
         }*/
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getRoles().stream().map(Role::getRoleName).toList());
 
-        String token = jwtService.generateToken(claims, user.getEmail());
-        return new AuthResponse(token, "Bearer", user.getEmail(), user.getRoles().stream().map(Role::getRoleName).findFirst().orElse("ROLE_USER"));
+
+        return new AuthResponse("token", "Bearer", user.getEmail(), user.getRoles().stream().map(Role::getRoleName).findFirst().orElse("ROLE_USER"));
     }
 }
