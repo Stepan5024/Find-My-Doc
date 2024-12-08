@@ -2,15 +2,10 @@ server:
   port: 8081
 
 
-spring:
-  datasource:
-    url: jdbc:postgresql://postgres:5432/aidoc_postgres_db
-    username: aidoc_user
-    password: aidoc_password
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
+# JWT Configuration
+jwt:
+  secret: bXlTdXBlclNlY3JldEtleUZvckp3dFRva2VuR2VuZXJhdGlvbkFuZFZhbGlkYXRpb24=
+  #your-secret-key-should-be-at-least-32-characters-long-for-security
+  expiration: 86400000  # 24 часа в миллисекундах
+  header: Authorization
+  prefix: "Bearer "

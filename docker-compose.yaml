@@ -21,6 +21,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_postgres_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8080:8080"
 
@@ -34,6 +35,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aidoc_postgres_db
       SPRING_DATASOURCE_USERNAME: aidoc_user
       SPRING_DATASOURCE_PASSWORD: aidoc_password
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8081:8081"
 

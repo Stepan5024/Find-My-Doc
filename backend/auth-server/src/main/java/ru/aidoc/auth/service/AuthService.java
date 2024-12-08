@@ -5,7 +5,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import ru.aidoc.auth.dto.AuthRequest;
+import ru.aidoc.auth.dto.AuthResponse;
+import ru.aidoc.auth.dto.RegisterRequest;
+import ru.aidoc.auth.model.Role;
+import ru.aidoc.auth.model.User;
+import ru.aidoc.auth.repository.RoleRepository;
+import ru.aidoc.auth.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -16,8 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthService {
 
-    /*private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    //private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
 
@@ -30,7 +36,7 @@ public class AuthService {
         User user = new User();
         user.setUserId(UUID.randomUUID()); // Генерируем UUID
         user.setEmail(request.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        //user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setMiddleName(request.getMiddleName());
@@ -60,9 +66,9 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+       /* if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new IllegalArgumentException("Неверный пароль");
-        }
+        }*/
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getRoles().stream().map(Role::getRoleName).toList());
@@ -70,6 +76,4 @@ public class AuthService {
         String token = jwtService.generateToken(claims, user.getEmail());
         return new AuthResponse(token, "Bearer", user.getEmail(), user.getRoles().stream().map(Role::getRoleName).findFirst().orElse("ROLE_USER"));
     }
-
-     */
 }
