@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Find-My-Doc</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+<script src="/js/dashboard.js"></script>
+<header class="header">
+    <h1>Find-My-Doc</h1>
+    <div class="nav-buttons">
+        <span id="userEmail" class="user-info"></span>
+        <button onclick="logout()" class="button">Выйти</button>
+    </div>
+</header>
+
+<div class="container">
+    <div id="loading" class="loading">Загрузка...</div>
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+
+    <div class="tab-container">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('dashboard')">Главная</div>
+            <div class="tab" onclick="switchTab('profile')">Профиль</div>
+            <div class="tab" onclick="switchTab('documents')">Документы</div>
+        </div>
+
+        <div id="dashboard" class="tab-content active">
+            <h2>Добро пожаловать!</h2>
+            <div id="dashboardContent">
+                <h3>Последние действия</h3>
+                <div id="recentActivity">
+                    <!-- Здесь будет список последних действий -->
+                </div>
+            </div>
+        </div>
+
+        <div id="profile" class="tab-content">
+            <h2>Профиль пользователя</h2>
+            <form class="profile-form" id="profileForm">
+                <div class="form-group">
+                    <label for="profileEmail">Email:</label>
+                    <input type="email" id="profileEmail" name="email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="profileFirstName">Имя:</label>
+                    <input type="text" id="profileFirstName" name="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="profileLastName">Фамилия:</label>
+                    <input type="text" id="profileLastName" name="lastName">
+                </div>
+                <div class="form-group">
+                    <label for="profileMiddleName">Отчество:</label>
+                    <input type="text" id="profileMiddleName" name="middleName">
+                </div>
+                <div class="form-group">
+                    <label for="profilePhone">Телефон:</label>
+                    <input type="tel" id="profilePhone" name="phoneNumber">
+                </div>
+                <button type="submit" class="button">Сохранить изменения</button>
+            </form>
+        </div>
+
+        <div id="documents" class="tab-content">
+            <h2>Мои документы</h2>
+            <div class="document-upload">
+                <form id="documentUploadForm">
+                    <div class="form-group">
+                        <label for="documentFile">Загрузить документ:</label>
+                        <input type="file" id="documentFile" name="file" accept=".pdf,.doc,.docx">
+                    </div>
+                    <button type="submit" class="button">Загрузить</button>
+                </form>
+            </div>
+            <div id="documentsList">
+                <!-- Здесь будет список документов -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/dashboard.js"></script>
+<script src="/js/dashboard.bundle.js"></script>
+</body>
+</html>
