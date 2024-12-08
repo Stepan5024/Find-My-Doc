@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find-My-Doc</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="header">
+    <h1>Find-My-Doc</h1>
+    <div class="nav-buttons">
+        <a href="/login" class="button" id="loginButton">Войти</a>
+        <a href="/register" class="button" id="registerButton">Зарегистрироваться</a>
+        <a href="/dashboard" class="button" id="dashboardButton" style="display: none;">Перейти в дашборд</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="welcome-message">
+        <h2>Добро пожаловать в Find-My-Doc</h2>
+        <p>Сервис для проверки и анализа документов</p>
+    </div>
+</div>
+
+<script src="/js/index.js"></script>
+</body>
+</html>

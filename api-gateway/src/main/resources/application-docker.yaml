@@ -1,7 +1,0 @@
-webclient:
-  auth-server-url: http://auth-server:8081
-spring:
-  datasource:
-    url: jdbc:postgresql://postgres:5432/aidoc_auth_db
-    username: aidoc_user
-    password: aidoc_password

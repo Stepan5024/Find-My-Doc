@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${HOST:localhost}:${PORT:6541}/${NAME:fmdDB}
+    driver-class-name: org.postgresql.Driver
+    username: aidoc_user
+    password: aidoc_password
+  sql:
+    init:
+      mode: always
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: WARN
+        transaction: WARN
+        transaction.interceptor: WARN
+        orm.jpa.JpaTransactionManager: WARN
