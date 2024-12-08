@@ -1,0 +1,2 @@
+webclient:
+  auth-server-url: http://auth-service:8081
