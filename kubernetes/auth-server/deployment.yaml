@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-server
+  labels:
+    app: auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-server
+  template:
+    metadata:
+      labels:
+        app: auth-server
+    spec:
+      volumes:
+        - name: init-scripts
+          configMap:
+            name: db-init-scripts
+        - name: auth-config
+          configMap:
+            name: auth-config
+        - name: auth-secret
+          secret:
+            secretName: auth-secret
+      initContainers:
+        - name: init-db
+          image: postgres:14-alpine
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: SPRING_DATASOURCE_PASSWORD
+          command: 
+            - sh
+            - -c
+            - |
+              until psql -h postgres -U aidoc_user -d fmdDB -f /scripts/01_init.sql; do
+                echo "Waiting for PostgreSQL...";
+                sleep 5;
+              done;
+              psql -h postgres -U aidoc_user -d fmdDB -f /scripts/02_data.sql
+          volumeMounts:
+            - name: init-scripts
+              mountPath: /scripts
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      containers:
+        - name: auth-server
+          image: auth-server:v1.0.0
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: SPRING_DATASOURCE_PASSWORD
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "256Mi"
+              cpu: "1"
