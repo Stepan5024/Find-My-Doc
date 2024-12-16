@@ -21,8 +21,8 @@ public class AuthController {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    //@Value()
-    private String authServerUrl = "http://auth-service:8081";
+    @Value("${webclient.auth-server-url:http://localhost:8081}")
+    private String authServerUrl;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {

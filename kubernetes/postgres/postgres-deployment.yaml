@@ -44,9 +44,9 @@ spec:
               command:
                 - pg_isready
                 - -U
-                - POSTGRES_USER
+                - aidoc_user
                 - -d
-                - fmdDB
+                - aidoc_auth_db
             initialDelaySeconds: 5
             periodSeconds: 10
           resources:

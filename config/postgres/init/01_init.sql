@@ -15,6 +15,9 @@ BEGIN
 END
 $$;
 
+-- Create aidoc_user role
+CREATE ROLE aidoc_user WITH LOGIN PASSWORD 'aidoc_password';
+
 -- Grant privileges
 GRANT ALL PRIVILEGES ON DATABASE aidoc_auth_db TO aidoc_user;
 GRANT ALL PRIVILEGES ON DATABASE aidoc_db TO aidoc_user;
