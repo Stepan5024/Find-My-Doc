@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: db-init-scripts
+  name: configmap-db-init-scripts
 data:
   01_init.sql: |
     -- Check if the database exists before creating it

@@ -9,11 +9,18 @@ COPY frontend/package*.json ./
 # Копируем оставшиеся файлы фронтенда
 COPY frontend/ .
 
+# Устанавливаем переменную среды для Minikube или localhost
+ARG API_BASE_URL=http://api-gateway.local
+
+# Передаём её в процесс сборки
+ENV REACT_APP_API_BASE_URL=$API_BASE_URL
+
 # Устанавливаем зависимости
 RUN npm install
 
+RUN echo "REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL"
 # Сборка фронтенда
-RUN npm run build
+RUN npm run build:minikube
 # ------------------ Сборка бэкенда -----------------------
 
 FROM maven:3.8.5-openjdk-17 AS build

@@ -55,6 +55,7 @@ spec:
       containers:
         - name: auth-server
           image: auth-server:v1.0.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
           env:
