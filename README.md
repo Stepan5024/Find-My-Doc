@@ -365,6 +365,127 @@ kubernetes/
 7. Применение **лейблов**:
    - Все Deployment используют лейблы `app: <service-name>` для выбора соответствующих ресурсов.
 
+## Makefile для управления сборкой и деплоем сервисов
+
+### Основные переменные
+- `IMAGE_AUTH_SERVER` — имя и версия Docker-образа для **Auth Server**.
+- `IMAGE_API_GATEWAY` — имя и версия Docker-образа для **API Gateway**.
+- `KUBECTL_CONTEXT` — контекст для **kubectl** (например, Minikube).
+
+### Основные цели и задачи
+
+#### 1. **Настройка окружения Docker**
+Команда настраивает **Docker CLI** для использования демона Docker в **Minikube**:
+
+```makefile
+make docker-env
+```
+### 2. Сборка Docker-образов
+Сборка образов для Auth Server и API Gateway:
+
+Сборка всех образов:
+```makefile
+make build
+```
+Сборка Auth Server:
+```dockerfile
+make build-auth-server
+```
+
+Сборка API Gateway:
+```dockerfile
+make build-api-gateway
+```
+
+### 3. Деплой в Kubernetes
+   Развертывание сервисов в Kubernetes:
+
+Полный деплой:
+```dockerfile
+make deploy
+```
+Деплой Postgres:
+
+```
+make deploy-postgres
+```
+Деплой Auth Server:
+```
+make deploy-auth-server
+```
+Деплой API Gateway:
+```
+make deploy-api-gateway
+```
+
+### 4. Очистка ресурсов Kubernetes
+Удаление всех созданных ресурсов из Kubernetes:
+```
+make clean
+```
+
+### 5. Проверка статуса подов
+Получение текущего статуса всех подов:
+```dockerfile
+make status
+```
+### Полный цикл сборки и деплоя
+Команда выполняет все шаги: настройка окружения, сборка Docker-образов, деплой и перезапуск деплойментов:
+```dockerfile
+make all
+```
+
+# Инструкция для запуска проекта с использованием Minikube и Makefile
+
+Следуйте данной инструкции, чтобы развернуть проект в Kubernetes с помощью Minikube и Makefile.
+
+---
+
+## Шаги для запуска
+
+### 1. **Запуск Minikube**
+Запустите Minikube, чтобы поднять локальное Kubernetes-окружение:
+```bash
+minikube start
+```
+
+## 2. Настройка Docker CLI для использования Minikube
+Настройте Docker CLI, чтобы сборка образов происходила в окружении Minikube:
+
+## 3. Сборка Docker-образов
+Выполните сборку образов для сервисов с помощью команды `make build`:
+
+## 4. Полный цикл сборки и деплоя
+Запустите команду `make all`, которая выполнит:
+- Настройку Docker CLI.
+- Сборку всех образов.
+- Деплой сервисов в Kubernetes.
+- Перезапуск всех деплойментов.
+
+## 5. Проброс порта для API Gateway
+После успешного деплоя сервисов выполните проброс порта, чтобы получить доступ к API Gateway:
+```dockerfile
+kubectl port-forward svc/api-gateway-service 8080:8080
+```
+Теперь API Gateway будет доступен по адресу: http://localhost:8080.
+## 6. Открытие Minikube Dashboard
+```dockerfile
+minikube dashboard
+```
+Minikube предоставляет удобный интерфейс для мониторинга ресурсов в Kubernetes:
+
+## Завершение работы
+### 1. Остановка Minikube
+Для остановки запущенного окружения выполните:
+```dockerfile
+minikube stop
+```
+### 2. Удаление окружения Minikube
+Чтобы полностью удалить окружение Minikube, включая все ресурсы и данные, выполните:
+```dockerfile
+minikube delete
+```
+
 # Выводы
 Приложение Find-my-doc успешно развернуто в Minikube, удовлетворяя всем заданным требованиям. Использованы кастомные Docker-образы, настроены init-контейнеры, volumes, ConfigMap и Secrets. Реализованы Liveness и Readiness пробы, а также применены необходимые лейблы для управления ресурсами.
 
