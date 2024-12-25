@@ -6,6 +6,8 @@
   "scripts": {
     "clean": "rimraf build",
     "start": "webpack serve --mode development",
+    "build:local": "REACT_APP_API_BASE_URL=http://localhost:8080 npm run build",
+    "build:minikube": "REACT_APP_API_BASE_URL=http://localhost:8080 npm run build",
     "build": "webpack --mode production"
   },
   "author": "Find My Doc",

@@ -1,6 +1,5 @@
-// frontend/webpack.config.js
-
 const path = require('path'); // Модуль для работы с путями файловой системы
+const webpack = require('webpack'); // Импорт Webpack для использования плагинов
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // Плагин для генерации HTML-файлов
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // Плагин для извлечения CSS в отдельные файлы
 
@@ -83,6 +82,9 @@ module.exports = {
             filename: 'dashboard.html', // Имя HTML файла для панели управления
             template: './src/pages/dashboard/dashboard.html', // Шаблон HTML для панели управления
             chunks: ['dashboard'], // Включение только dashboard.js и соответствующих CSS
+        }),
+        new webpack.DefinePlugin({
+            'process.env.REACT_APP_API_BASE_URL': JSON.stringify(process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080')
         }),
     ],
     resolve: {

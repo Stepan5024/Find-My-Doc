@@ -9,11 +9,12 @@ COPY frontend/package*.json ./
 # Копируем оставшиеся файлы фронтенда
 COPY frontend/ .
 
+
 # Устанавливаем зависимости
 RUN npm install
 
 # Сборка фронтенда
-RUN npm run build
+RUN npm run build:minikube
 # ------------------ Сборка бэкенда -----------------------
 
 FROM maven:3.8.5-openjdk-17 AS build

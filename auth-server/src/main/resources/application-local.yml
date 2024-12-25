@@ -1,5 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://host.docker.internal:5432/aidoc_auth_db
-    username: aidoc_user
-    password: aidoc_password
