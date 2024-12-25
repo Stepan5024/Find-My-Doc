@@ -1,6 +1,7 @@
 # Find-My-Doc
 Поиск копий документов по переданным оригинальным изображениям
 
+
 1. **Минимум два Deployment**:
 - **api-gateway**
 - **auth-service**
@@ -88,12 +89,57 @@ Find-my-doc/
 │   ├── public/                  # Статические файлы
 │   ├── package.json
 │   └── webpack.config.js
-
+=======
+│   │   └── secret.yaml
+│   ├── auth-server/
+│   │   ├── configmap.yaml
+│   │   ├── deployment.yaml
+│   │   └── secret.yaml
+│   ├── postgres/
+│   │   ├── configmap-db-init-scripts.yaml
+│   │   ├── postgres-pvc.yaml
+│   │   ├── postgres-deployment.yaml
+│   │   └── postgres-service.yaml
+├── documentation/
+│   ├── architecture.md
+│   ├── kuber.md
+│   ├── backend.md
+│   ├── ocr.md
+│   ├── kafka.md
+│   ├── development-guidelines.md
+│   └── semantic-analysis.md
+├── docker-compose.yml
+├── Makefile
+└── README.md
 ```
+
 # Структура готового проекта
 ```plaintext
 Find-my-doc/ 
 ├── backend/
+Find-my-doc/
+├── backend/
+│   ├── api-gateway/
+│   │   ├── src/
+│   │   │   ├── main/
+│   │   │   │   ├── java/
+│   │   │   │   │   └── ru/
+│   │   │   │   │       └── aidoc/
+│   │   │   │   │           └── apigateway/
+│   │   │   │   │               └── utils/
+│   │   │   │   │                   └── JsonUtil.java
+│   │   │   │   └── resources/
+│   │   ├── pom.xml
+│   ├── auth-service/
+│   │   ├── src/
+│   │   │   ├── main/
+│   │   │   │   ├── java/
+│   │   │   │   │   └── ru/
+│   │   │   │   │       └── aibok/
+│   │   │   │   │           └── auth/
+│   │   │   │   │               └── AuthServerApplication.java
+│   │   │   │   └── resources/
+│   │   ├── pom.xml
 │   ├── common/
 │   │   ├── src/
 │   │   │   ├── main/
@@ -140,7 +186,32 @@ Find-my-doc/
 │   │   │       └── application.yml
 │   │   └── test/
 │   └── pom.xml
-│
+│   │   │   │   │   └── ru/
+│   │   │   │   │       └── aidoc/
+│   │   │   │   │           └── common/
+│   │   │   │   └── resources/
+│   │   ├── pom.xml
+│   ├── pom.xml
+├── docker/
+│   ├── api-gateway/
+│   │   └── Dockerfile
+│   ├── auth-service/
+│   │   └── Dockerfile
+│   ├── common/
+│   │   └── Dockerfile
+│   ├── doc-service/
+│   │   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   └── styles/
+│   ├── public/
+│   ├── package.json
+│   └── webpack.config.js
 ├── kubernetes/
 │   ├── api-gateway/
 │   │   ├── configmap.yaml
@@ -179,6 +250,7 @@ Find-my-doc/
 ├── docker-compose.yml           # В корне проекта
 
 ```
+
 
 # Первый шаг: Создание Docker директории для сборки образов сервисов бэкенда
 
@@ -490,3 +562,4 @@ minikube delete
 Приложение Find-my-doc успешно развернуто в Minikube, удовлетворяя всем заданным требованиям. Использованы кастомные Docker-образы, настроены init-контейнеры, volumes, ConfigMap и Secrets. Реализованы Liveness и Readiness пробы, а также применены необходимые лейблы для управления ресурсами.
 
 ![img.png](about/img/img.png)
+
