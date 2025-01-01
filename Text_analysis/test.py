@@ -3,7 +3,7 @@ from sentence_transformers import SentenceTransformer, util
 import torch
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 
 def calculate_similarity(model_path, sentence1, sentence2):
@@ -21,7 +21,7 @@ def calculate_similarity(model_path, sentence1, sentence2):
     try:
         # Load the model
         model = SentenceTransformer(model_path)
-        logging.info(f"Loaded model from {model_path}")
+        # logging.info(f"Loaded model from {model_path}")
 
         # Validate inputs
         if not isinstance(sentence1, str) or not isinstance(sentence2, str):
