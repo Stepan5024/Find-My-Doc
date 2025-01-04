@@ -1,5 +1,15 @@
 {
   "devDependencies": {
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "vite": "^6.0.7"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.9",
+    "framer-motion": "^11.15.0",
+    "postcss": "^8.4.49",
+    "react-router-dom": "^7.1.1",
+    "tailwindcss": "^3.4.17",
+    "zustand": "^5.0.2"
   }
 }

@@ -3,7 +3,7 @@ package ru.aidoc.apigaterway.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
+
 
 /**
  * DTO для запроса регистрации нового пользователя.

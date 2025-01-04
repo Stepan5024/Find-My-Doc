@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${HOST:localhost}:${PORT:6541}/${NAME:fmdDB}
+    url: jdbc:postgresql://${HOST:localhost}:${PORT:5432}/${NAME:fmdDB}
     driver-class-name: org.postgresql.Driver
     username: aidoc_user
     password: aidoc_password

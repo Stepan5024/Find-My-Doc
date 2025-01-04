@@ -1,0 +1,34 @@
+# Игнорируемые папки
+node_modules/
+dist/
+distr/
+.vite/
+.DS_Store
+
+# Игнорируемые файлы
+.env
+.env.local
+.env.development
+.env.production
+*.log
+*.tmp
+*.temp
+
+# Игнорируемые файлы редакторов и IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Игнорируемые файлы зависимостей
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Игнорируемые файлы сборки и кэша
+.cache/
+.temp/
+build/
+out/

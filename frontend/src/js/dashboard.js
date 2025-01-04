@@ -146,7 +146,6 @@ async function handleProfileSubmit(e) {
         showLoading(false);
     }
 }
-
 async function handleDocumentUpload(e) {
     e.preventDefault();
     showLoading(true);
@@ -156,7 +155,7 @@ async function handleDocumentUpload(e) {
     formData.append('file', fileInput.files[0]);
 
     try {
-        const response = await fetch('/documents/upload', {
+        const response = await fetch('http://localhost:8084/documents/upload', {
             method: 'POST',
             body: formData
         });
@@ -179,12 +178,12 @@ async function handleDocumentUpload(e) {
 async function loadDocuments() {
     showLoading(true);
     try {
-        const response = await fetch('/documents');
+        const response = await fetch('http://localhost:8084/documents');
         if (response.ok) {
             const documents = await response.json();
             displayDocuments(documents);
         } else {
-            //showError('Ошибка загрузки документов');
+            showError('Ошибка загрузки документов');
         }
     } catch (error) {
         showError('Ошибка соединения с сервером');
@@ -199,11 +198,33 @@ function displayDocuments(documents) {
     documentsList.innerHTML = documents.length ?
         documents.map(doc => `
                     <div class="document-item">
-                        <span>${doc.name}</span>
-                        <button onclick="downloadDocument('${doc.id}')">Скачать</button>
+                        <span>${doc.filename}</span>
+                        <button onclick="downloadDocument('${doc._id}')">Скачать</button>
                     </div>
                 `).join('') :
         '<p>Нет загруженных документов</p>';
+}
+
+async function downloadDocument(fileId) {
+    try {
+        const response = await fetch(`http://localhost:8084/documents/download/${fileId}`);
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `file_${fileId}`; // Имя файла для скачивания
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } else {
+            showError('Ошибка при скачивании документа');
+        }
+    } catch (error) {
+        showError('Ошибка соединения с сервером');
+        console.error('Error:', error);
+    }
 }
 
 function showLoading(show) {
