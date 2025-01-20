@@ -1,2 +1,10 @@
 bing_image_downloader
 tqdm
+fastapi
+uvicorn
+pymongo
+torch
+torchvision
+pillow
+requests
+python-magic
