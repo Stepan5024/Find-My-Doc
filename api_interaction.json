@@ -1,12 +1,8 @@
 {
-    "sen1" {
-        "pages" {
-            [["fio": "smth", "payment": "12332", "plain_text": "text"]]
-        }
-    }
-    "sen2" {
-        "pages" {
-            []
-        }
+    "sen1": {
+        "pages": [["fio", "smth", "payment", "12332", "plain_text", "text"]]
+    },
+    "sen2": {
+        "pages": []
     }
 }

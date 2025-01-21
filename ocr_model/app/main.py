@@ -2,20 +2,23 @@ import requests
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from model import load_model, predict_text
-from database import save_image, get_image
+from app.model import load_model, predict_text
+from app.database import save_image, get_image
 
 app = FastAPI()
 
 model = load_model("doctr_parseq")
 
+
 class ImageRequest(BaseModel):
     original: str
     copy: str
 
+
 class TextResponse(BaseModel):
     sen1: str
     sen2: str
+
 
 @app.post("/recognize-text/", response_model=TextResponse)
 async def recognize_text(request: ImageRequest):
@@ -34,6 +37,7 @@ async def recognize_text(request: ImageRequest):
     text2 = predict_text(model, copy_image)
 
     return {"sen1": text1, "sen2": text2}
+
 
 def download_image(url: str) -> bytes:
     response = requests.get(url)

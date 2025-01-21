@@ -15,6 +15,11 @@ services:
       - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017/
+    volumes:
+      - ./app/doctr:/app/doctr
+    working_dir: /app
+    stdin_open: true
+    tty: true
 
 volumes:
   mongo_data:

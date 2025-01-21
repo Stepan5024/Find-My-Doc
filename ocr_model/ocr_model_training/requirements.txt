@@ -1,0 +1,3 @@
+mplcursors
+random_word
+pillow==11.0.0

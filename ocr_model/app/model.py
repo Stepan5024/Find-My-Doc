@@ -3,12 +3,10 @@ import os
 import subprocess
 
 from pathlib import Path
-from ..doctr.models.detection.predictor import DetectionPredictor
-from ..doctr.models.recognition.predictor import RecognitionPredictor
-from ..doctr.models.preprocessor import PreProcessor
-from ..doctr.models import db_resnet50, parseq, master, crnn_mobilenet_v3_small, ocr_predictor
-from ..doctr.io import DocumentFile
-from ..doctr.datasets.vocabs import VOCABS
+
+from doctr.models import db_resnet50, parseq, master, crnn_mobilenet_v3_small, ocr_predictor
+from app.doctr.io import DocumentFile
+from app.doctr.datasets.vocabs import VOCABS
 from utils import check_file_type
 
 
