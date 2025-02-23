@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find My Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        /* Основные стили */
+        body {
+            background-color: #f5f5f7;
+            color: #333;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .header {
+            background-color: #1e1e1e;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin: 0;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .header h1 {
+            color: #ffffff;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .header nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .header nav a {
+            color: #ffffff;
+        }
+
+        .header nav a:hover {
+            color: #6200ea;
+        }
+
+        .theme-switch {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .theme-switch {
+            color: #ffffff;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .upload-section, .profile-section, .support-section, .comparison-section, .history-section, .results-section, .analytics-section, .critical-analysis-section, .graphical-visualization-section, .conclusion-section {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .upload-section,
+        .dark-mode .profile-section,
+        .dark-mode .support-section,
+        .dark-mode .comparison-section,
+        .dark-mode .history-section,
+        .dark-mode .results-section,
+        .dark-mode .analytics-section,
+        .dark-mode .critical-analysis-section,
+        .dark-mode .graphical-visualization-section,
+        .dark-mode .conclusion-section {
+            background-color: #1e1e1e;
+        }
+
+        .upload-section h2, .profile-section h2, .support-section h2, .comparison-section h2, .history-section h2, .results-section h2, .analytics-section h2, .critical-analysis-section h2, .graphical-visualization-section h2, .conclusion-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .upload-section h2,
+        .dark-mode .profile-section h2,
+        .dark-mode .support-section h2,
+        .dark-mode .comparison-section h2,
+        .dark-mode .history-section h2,
+        .dark-mode .results-section h2,
+        .dark-mode .analytics-section h2,
+        .dark-mode .critical-analysis-section h2,
+        .dark-mode .graphical-visualization-section h2,
+        .dark-mode .conclusion-section h2 {
+            color: #ffffff;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-section label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: #6200ea;
+            color: #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-section label:hover {
+            background-color: #3700b3;
+        }
+
+        .upload-section p {
+            margin-top: 1.5rem;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .upload-section p {
+            color: #bbbbbb;
+        }
+
+        #checkPlagiarismButton {
+            padding: 0.8rem 1.5rem;
+            background-color: #6200ea;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        #checkPlagiarismButton:hover {
+            background-color: #3700b3;
+        }
+
+        #checkPlagiarismButton:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        .profile-section img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-section .info h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .profile-section .info h2 {
+            color: #ffffff;
+        }
+
+        .profile-section .info p {
+            margin: 0.5rem 0 0;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .profile-section .info p {
+            color: #bbbbbb;
+        }
+
+        .comparison-text {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .text-block {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dark-mode .text-block {
+            background-color: #2e2e2e;
+            border-color: #444;
+        }
+
+        .text-block h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #6200ea;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .text-block h3 {
+            color: #bb86fc;
+        }
+
+        .text-block p {
+            margin: 0;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .text-block p {
+            color: #ffffff;
+        }
+
+        .highlight {
+            background-color: #ffcccb;
+            color: #000;
+            padding: 2px;
+        }
+
+        .plagiarism-result {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #6200ea;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .plagiarism-result {
+            color: #bb86fc;
+        }
+
+        .history-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-section th,
+        .history-section td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dark-mode .history-section th,
+        .dark-mode .history-section td {
+            border-bottom-color: #444;
+        }
+
+        .history-section th {
+            font-weight: 600;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .history-section th {
+            color: #ffffff;
+        }
+
+        .history-section td {
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .history-section td {
+            color: #bbbbbb;
+        }
+
+        .history-section tr:hover {
+            background-color: #f5f5f7;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .history-section tr:hover {
+            background-color: #333333;
+        }
+
+        .support-section input,
+        .support-section textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            background-color: #fafafa;
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dark-mode .support-section input,
+        .dark-mode .support-section textarea {
+            background-color: #2e2e2e;
+            border-color: #444;
+            color: #ffffff;
+        }
+
+        .support-section input:focus,
+        .support-section textarea:focus {
+            outline: none;
+            border-color: #6200ea;
+        }
+
+        .dark-mode .support-section input:focus,
+        .dark-mode .support-section textarea:focus {
+            border-color: #bb86fc;
+        }
+
+        .support-section button {
+            padding: 0.8rem 1.5rem;
+            background-color: #6200ea;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .support-section button:hover {
+            background-color: #3700b3;
+        }
+
+        .dark-mode .support-section button {
+            background-color: #bb86fc;
+        }
+
+        .dark-mode .support-section button:hover {
+            background-color: #3700b3;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-summary {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .results-summary.green {
+            background-color: #e6f4ea;
+            color: #34a853;
+        }
+
+        .results-summary.red {
+            background-color: #fce8e6;
+            color: #d93025;
+        }
+
+        .results-summary.yellow {
+            background-color: #fef7e0;
+            color: #f9ab00;
+        }
+
+        .analytics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        .analytics-table th,
+        .analytics-table td {
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dark-mode .analytics-table th,
+        .dark-mode .analytics-table td {
+            border-color: #444;
+        }
+
+        .analytics-table th {
+            background-color: #f5f5f7;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .analytics-table th {
+            background-color: #2e2e2e;
+        }
+
+        .analytics-table td {
+            background-color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .analytics-table td {
+            background-color: #1e1e1e;
+        }
+
+        .critical-analysis-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .critical-analysis-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .graphical-visualization-section .highlighted-text {
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dark-mode .graphical-visualization-section .highlighted-text {
+            background-color: #2e2e2e;
+            border-color: #444;
+        }
+
+        .conclusion-section p {
+            margin-bottom: 1rem;
+        }
+
+        .conclusion-section .recommendations {
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f5f5f7;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .conclusion-section .recommendations {
+            background-color: #2e2e2e;
+        }
+        .quality-label {
+    font-size: 0.6em; /* Меньший размер текста */
+    color: #666; /* Серый цвет текста */
+    margin-left: 0.5em; /* Отступ слева */
+    font-weight: 400; /* Нормальное начертание */
+    font-style: italic; /* Курсив */
+    opacity: 0.8; /* Легкая прозрачность */
+    transition: opacity 0.3s ease, color 0.3s ease; /* Плавный переход */
+}
+
+.quality-label:hover {
+    opacity: 1; /* Убираем прозрачность при наведении */
+    color: #6200ea; /* Фиолетовый цвет при наведении */
+}
+/* Стили для кнопки премиум */
+.premium-button {
+    padding: 0.8rem 1.5rem;
+    background-color: #ff9800; /* Оранжевый цвет */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-left: 1rem;
+}
+
+.premium-button:hover {
+    background-color: #f57c00; /* Темнее оранжевый */
+}
+
+/* Стили для премиум-секции */
+.premium-section {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.dark-mode .premium-section {
+    background-color: #1e1e1e;
+}
+
+.premium-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .premium-section h2 {
+    color: #ffffff;
+}
+
+.premium-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.premium-section ul li {
+    margin-bottom: 0.5rem;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .premium-section ul li {
+    color: #bbbbbb;
+}
+
+.premium-section button {
+    padding: 0.8rem 1.5rem;
+    background-color: #ff9800;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.premium-section button:hover {
+    background-color: #f57c00;
+}
+.premium-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .premium-modal-content {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .premium-modal-content {
+            background-color: #1e1e1e;
+        }
+
+        .premium-modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .premium-modal h2 {
+            color: #ffffff;
+        }
+
+        .premium-modal ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .premium-modal ul li {
+            margin-bottom: 0.5rem;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .premium-modal ul li {
+            color: #bbbbbb;
+        }
+
+        .premium-modal button {
+            padding: 0.8rem 1.5rem;
+            background-color: #ff9800;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .premium-modal button:hover {
+            background-color: #f57c00;
+        }
+
+        .premium-modal .close-button {
+            background-color: #e0e0e0;
+            color: #333;
+            margin-top: 1rem;
+        }
+
+        .dark-mode .premium-modal .close-button {
+            background-color: #444;
+            color: #ffffff;
+        }
+
+        .premium-modal .close-button:hover {
+            background-color: #bdbdbd;
+        }
+
+        .dark-mode .premium-modal .close-button:hover {
+            background-color: #666;
+        }
+                /* Стили для профиля */
+                .profile-section {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        body.light-mode .profile-section {
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-section .info h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .profile-section .info h2 {
+            color: #333333;
+        }
+
+        .profile-section .info p {
+            margin: 0.5rem 0 0;
+            color: #bb86fc;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .profile-section .info p {
+            color: #6200ea;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка (остается без изменений) -->
+    <div class="header">
+        <h1>Find My Document <span class="quality-label">качественная проверка на плагиат</span></h1>
+        <nav>
+            <a href="#" id="profileLink">Профиль</a>
+            <a href="#" id="documentsLink">Документы</a>
+            <a href="#" id="supportLink">Поддержка</a>
+            <button class="theme-switch" id="themeSwitch">🌙</button>
+            <button id="subscribeButton" class="premium-button">Премиум</button>
+        </nav>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <div id="profileSection" class="profile-section">
+            <img src="https://via.placeholder.com/80" alt="Профиль">
+            <div class="info">
+                <h2 id="userName">Имя пользователя</h2>
+                <p id="userEmail">Email</p>
+                <p id="registrationDate">Дата регистрации</p>
+            </div>
+        </div>
+
+        <!-- Секция загрузки документов (остается без изменений) -->
+        <div id="uploadSection" class="upload-section">
+            <h2>Загрузите документ</h2>
+            <div>
+                <input type="file" id="originalFileInput" accept=".txt">
+                <label for="originalFileInput" id="originalFileLabel">Загрузить оригинал</label>
+                <p id="originalFileStatus">Оригинал не выбран</p>
+            </div>
+            <div>
+                <input type="file" id="copyFileInput" accept=".txt">
+                <label for="copyFileInput" id="copyFileLabel">Загрузить копию</label>
+                <p id="copyFileStatus">Копия не выбрана</p>
+            </div>
+            <button id="checkPlagiarismButton" disabled>Проверить на плагиат</button>
+            <div class="plagiarism-result" id="plagiarismResult"></div>
+        </div>
+
+        <!-- Секция сравнения текстов (остается без изменений) -->
+        <div id="comparisonSection" class="comparison-section" style="display: none;">
+            <h2>Сравнение текстов</h2>
+            <div class="comparison-text">
+                <div class="text-block" id="originalTextBlock">
+                    <h3>Оригинал:</h3>
+                    <p id="originalTextContent"></p>
+                </div>
+                <div class="text-block" id="copyTextBlock">
+                    <h3>Копия:</h3>
+                    <p id="copyTextContent"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция результатов проверки (остается без изменений) -->
+        <div id="resultsSection" class="results-section" style="display: none;">
+            <h2>Результаты проверки</h2>
+            <div class="results-summary green" id="resultsSummary">
+                Короткое саммари: Документ соответствует оригиналу на 95%.
+            </div>
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Тип изменения</th>
+                        <th>Пример</th>
+                    </tr>
+                </thead>
+                <tbody id="changesTableBody">
+                    <!-- Данные будут добавлены динамически -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Секция аналитики изменений (остается без изменений) -->
+        <div id="analyticsSection" class="analytics-section" style="display: none;">
+            <h2>Аналитика изменений</h2>
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Оригинальный фрагмент</th>
+                        <th>Фрагмент в скан-копии</th>
+                        <th>Тип изменения</th>
+                        <th>Степень важности</th>
+                    </tr>
+                </thead>
+                <tbody id="analyticsTableBody">
+                    <!-- Данные будут добавлены динамически -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Секция анализа критичных изменений (остается без изменений) -->
+        <div id="criticalAnalysisSection" class="critical-analysis-section" style="display: none;">
+            <h2>Анализ критичных изменений</h2>
+            <ul id="criticalChangesList">
+                <!-- Данные будут добавлены динамически -->
+            </ul>
+        </div>
+
+        <!-- Секция графической визуализации (остается без изменений) -->
+        <div id="graphicalVisualizationSection" class="graphical-visualization-section" style="display: none;">
+            <h2>Графическая визуализация изменений</h2>
+            <div class="highlighted-text" id="highlightedText">
+                <!-- Данные будут добавлены динамически -->
+            </div>
+        </div>
+
+        <!-- Секция заключения (остается без изменений) -->
+        <div id="conclusionSection" class="conclusion-section" style="display: none;">
+            <h2>Заключение</h2>
+            <p><strong>Общий вывод:</strong> <span id="conclusionText"></span></p>
+            <div class="recommendations">
+                <h3>Рекомендации:</h3>
+                <ul id="recommendationsList">
+                    <!-- Данные будут добавлены динамически -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Секция истории проверок (остается без изменений) -->
+        <div id="historySection" class="history-section">
+            <h2>История проверок</h2>
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Оригинал</th>
+                        <th>Копия</th>
+                        <th>Сходство</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Пример записи -->
+                    <tr>
+                        <td>2023-10-01</td>
+                        <td>document1.txt</td>
+                        <td>document2.txt</td>
+                        <td>85%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Секция поддержки (остается без изменений) -->
+        <div id="supportSection" class="support-section" style="display: none;">
+            <h2>Поддержка</h2>
+            <form id="supportForm">
+                <label for="name">Ваше имя:</label>
+                <input type="text" id="name" required>
+
+                <label for="email">Ваш email:</label>
+                <input type="email" id="email" required>
+
+                <label for="message">Сообщение:</label>
+                <textarea id="message" rows="5" required></textarea>
+
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+    <!-- Модальное окно для премиум-подписки -->
+    <div id="premiumModal" class="premium-modal">
+        <div class="premium-modal-content">
+            <h2>Премиум-подписка</h2>
+            <ul>
+                <li>Глубокий анализ текста с использованием AI.</li>
+                <li>Графическая визуализация изменений.</li>
+                <li>Подробная аналитика и отчеты.</li>
+                <li>Приоритетная поддержка 24/7.</li>
+            </ul>
+            <button id="buyPremiumButton">Купить за 499₽</button>
+            <button class="close-button" id="closePremiumModal">Закрыть</button>
+        </div>
+    </div>
+    <script>
+        // Переключение темы (остается без изменений)
+        const themeSwitch = document.getElementById('themeSwitch');
+        const body = document.body;
+
+        themeSwitch.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeSwitch.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Переключение разделов (остается без изменений)
+        const profileLink = document.getElementById('profileLink');
+        const documentsLink = document.getElementById('documentsLink');
+        const supportLink = document.getElementById('supportLink');
+        const profileSection = document.getElementById('profileSection');
+        const uploadSection = document.getElementById('uploadSection');
+        const comparisonSection = document.getElementById('comparisonSection');
+        const resultsSection = document.getElementById('resultsSection');
+        const analyticsSection = document.getElementById('analyticsSection');
+        const criticalAnalysisSection = document.getElementById('criticalAnalysisSection');
+        const graphicalVisualizationSection = document.getElementById('graphicalVisualizationSection');
+        const conclusionSection = document.getElementById('conclusionSection');
+        const historySection = document.getElementById('historySection');
+        const supportSection = document.getElementById('supportSection');
+
+        profileLink.addEventListener('click', () => {
+            profileSection.style.display = 'block';
+            uploadSection.style.display = 'none';
+            comparisonSection.style.display = 'none';
+            resultsSection.style.display = 'none';
+            analyticsSection.style.display = 'none';
+            criticalAnalysisSection.style.display = 'none';
+            graphicalVisualizationSection.style.display = 'none';
+            conclusionSection.style.display = 'none';
+            historySection.style.display = 'none';
+            supportSection.style.display = 'none';
+        });
+
+        documentsLink.addEventListener('click', () => {
+            profileSection.style.display = 'none';
+            uploadSection.style.display = 'block';
+            comparisonSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            analyticsSection.style.display = 'block';
+            criticalAnalysisSection.style.display = 'block';
+            graphicalVisualizationSection.style.display = 'block';
+            conclusionSection.style.display = 'block';
+            historySection.style.display = 'block';
+            supportSection.style.display = 'none';
+        });
+
+        supportLink.addEventListener('click', () => {
+            profileSection.style.display = 'none';
+            uploadSection.style.display = 'none';
+            comparisonSection.style.display = 'none';
+            resultsSection.style.display = 'none';
+            analyticsSection.style.display = 'none';
+            criticalAnalysisSection.style.display = 'none';
+            graphicalVisualizationSection.style.display = 'none';
+            conclusionSection.style.display = 'none';
+            historySection.style.display = 'none';
+            supportSection.style.display = 'block';
+        });
+
+        // Обработка формы поддержки (остается без изменений)
+        const supportForm = document.getElementById('supportForm');
+        supportForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
+            supportForm.reset();
+        });
+
+        // Логика загрузки файлов и проверки на плагиат
+        const originalFileInput = document.getElementById('originalFileInput');
+        const copyFileInput = document.getElementById('copyFileInput');
+        const originalFileStatus = document.getElementById('originalFileStatus');
+        const copyFileStatus = document.getElementById('copyFileStatus');
+        const checkPlagiarismButton = document.getElementById('checkPlagiarismButton');
+        const plagiarismResult = document.getElementById('plagiarismResult');
+        const originalTextContent = document.getElementById('originalTextContent');
+        const copyTextContent = document.getElementById('copyTextContent');
+        const resultsSummary = document.getElementById('resultsSummary');
+        const changesTableBody = document.getElementById('changesTableBody');
+        const analyticsTableBody = document.getElementById('analyticsTableBody');
+        const criticalChangesList = document.getElementById('criticalChangesList');
+        const highlightedText = document.getElementById('highlightedText');
+        const conclusionText = document.getElementById('conclusionText');
+        const recommendationsList = document.getElementById('recommendationsList');
+
+        let originalFile = null;
+        let copyFile = null;
+
+        originalFileInput.addEventListener('change', () => {
+            originalFile = originalFileInput.files[0];
+            originalFileStatus.textContent = `Оригинал: ${originalFile.name}`;
+            updateCheckButtonState();
+        });
+
+        copyFileInput.addEventListener('change', () => {
+            copyFile = copyFileInput.files[0];
+            copyFileStatus.textContent = `Копия: ${copyFile.name}`;
+            updateCheckButtonState();
+        });
+
+        function updateCheckButtonState() {
+            if (originalFile && copyFile) {
+                checkPlagiarismButton.disabled = false;
+            } else {
+                checkPlagiarismButton.disabled = true;
+            }
+        }
+
+        checkPlagiarismButton.addEventListener('click', async () => {
+            const originalText = await readFile(originalFile);
+            const copyText = await readFile(copyFile);
+
+            // Основное сравнение текстов
+            const { similarity, highlightedOriginal, highlightedCopy } = compareTexts(originalText, copyText);
+
+            // Поиск критических изменений
+            const criticalChanges = findCriticalChanges(originalText, copyText);
+
+            // Показываем секцию сравнения
+            comparisonSection.style.display = 'block';
+            resultsSection.style.display = 'block';
+            analyticsSection.style.display = 'block';
+            criticalAnalysisSection.style.display = 'block';
+            graphicalVisualizationSection.style.display = 'block';
+            conclusionSection.style.display = 'block';
+
+            // Отображаем результаты
+            originalTextContent.innerHTML = highlightedOriginal;
+            copyTextContent.innerHTML = highlightedCopy;
+            plagiarismResult.textContent = `Сходство текстов: ${similarity.toFixed(2)}%`;
+
+            // Обновляем саммари
+            if (similarity >= 90) {
+                resultsSummary.className = 'results-summary green';
+                resultsSummary.textContent = 'Короткое саммари: Документ соответствует оригиналу на 95%.';
+            } else if (similarity >= 70) {
+                resultsSummary.className = 'results-summary yellow';
+                resultsSummary.textContent = 'Короткое саммари: Документ имеет незначительные отличия.';
+            } else {
+                resultsSummary.className = 'results-summary red';
+                resultsSummary.textContent = 'Короткое саммари: Документ имеет существенные отличия.';
+            }
+
+            // Отображаем критические изменения
+            displayCriticalChanges(criticalChanges);
+
+            // Добавляем запись в историю
+            addToHistory(originalFile.name, copyFile.name, similarity);
+        });
+
+        function readFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error);
+                reader.readAsText(file);
+            });
+        }
+
+        function compareTexts(text1, text2) {
+            const words1 = text1.split(' ');
+            const words2 = text2.split(' ');
+            const totalWords = Math.max(words1.length, words2.length);
+            let commonWords = 0;
+            let highlightedOriginal = '';
+            let highlightedCopy = '';
+
+            for (let i = 0; i < totalWords; i++) {
+                if (words1[i] === words2[i]) {
+                    commonWords++;
+                    highlightedOriginal += `<span class="highlight">${words1[i] || ''}</span> `;
+                    highlightedCopy += `<span class="highlight">${words2[i] || ''}</span> `;
+                } else {
+                    highlightedOriginal += `${words1[i] || ''} `;
+                    highlightedCopy += `${words2[i] || ''} `;
+                }
+            }
+
+            const similarity = (commonWords / totalWords) * 100;
+            return {
+                similarity,
+                highlightedOriginal,
+                highlightedCopy,
+            };
+        }
+
+        function findCriticalChanges(originalText, copyText) {
+            const changes = [];
+
+            // Поиск изменений в суммах
+            const amountRegex = /(\d+[\s,.]?\d+)\s*(руб|р|USD|EUR)/gi;
+            const originalAmounts = originalText.match(amountRegex) || [];
+            const copyAmounts = copyText.match(amountRegex) || [];
+
+            originalAmounts.forEach((amount, index) => {
+                if (copyAmounts[index] && amount !== copyAmounts[index]) {
+                    changes.push({
+                        type: 'Изменение суммы',
+                        original: amount,
+                        copy: copyAmounts[index],
+                        importance: 'Критичное',
+                    });
+                }
+            });
+
+            // Поиск изменений в датах
+            const dateRegex = /(\d{1,2}[.\/-]\d{1,2}[.\/-]\d{2,4})/g;
+            const originalDates = originalText.match(dateRegex) || [];
+            const copyDates = copyText.match(dateRegex) || [];
+
+            originalDates.forEach((date, index) => {
+                if (copyDates[index] && date !== copyDates[index]) {
+                    changes.push({
+                        type: 'Изменение даты',
+                        original: date,
+                        copy: copyDates[index],
+                        importance: 'Критичное',
+                    });
+                }
+            });
+
+            // Поиск изменений в реквизитах
+            const requisitesRegex = /(ИНН|КПП|ОГРН|БИК)\s*:\s*(\d+)/gi;
+            const originalRequisites = originalText.match(requisitesRegex) || [];
+            const copyRequisites = copyText.match(requisitesRegex) || [];
+
+            originalRequisites.forEach((req, index) => {
+                if (copyRequisites[index] && req !== copyRequisites[index]) {
+                    changes.push({
+                        type: 'Изменение реквизитов',
+                        original: req,
+                        copy: copyRequisites[index],
+                        importance: 'Критичное',
+                    });
+                }
+            });
+
+            return changes;
+        }
+
+        function displayCriticalChanges(changes) {
+            // Очищаем таблицы и списки
+            changesTableBody.innerHTML = '';
+            analyticsTableBody.innerHTML = '';
+            criticalChangesList.innerHTML = '';
+            highlightedText.innerHTML = '';
+            recommendationsList.innerHTML = '';
+
+            // Заполняем таблицу изменений
+            changes.forEach(change => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${change.type}</td>
+                    <td>${change.original} → ${change.copy}</td
+                                        `;
+                changesTableBody.appendChild(row);
+            });
+
+            // Заполняем аналитику изменений
+            changes.forEach(change => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${change.original}</td>
+                    <td>${change.copy}</td>
+                    <td>${change.type}</td>
+                    <td>${change.importance}</td>
+                `;
+                analyticsTableBody.appendChild(row);
+            });
+
+            // Заполняем список критических изменений
+            changes.forEach(change => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${change.type}:</strong> ${change.original} → ${change.copy}`;
+                criticalChangesList.appendChild(listItem);
+            });
+
+            // Графическая визуализация изменений
+            changes.forEach(change => {
+                const changeText = document.createElement('p');
+                changeText.innerHTML = `
+                    <span class="highlight">${change.original}</span> → <span class="highlight">${change.copy}</span>
+                `;
+                highlightedText.appendChild(changeText);
+            });
+
+            // Формируем заключение и рекомендации
+            if (changes.length > 0) {
+                conclusionText.textContent = 'Обнаружены критические изменения в документе. Рекомендуется провести дополнительную проверку.';
+                recommendationsList.innerHTML = `
+                    <li>Запросить оригинал документа для сверки.</li>
+                    <li>Провести юридическую экспертизу измененных пунктов.</li>
+                    <li>Уточнить у контрагента причины изменений.</li>
+                `;
+            } else {
+                conclusionText.textContent = 'Критических изменений не обнаружено. Документ соответствует оригиналу.';
+                recommendationsList.innerHTML = `
+                    <li>Продолжить работу с документом.</li>
+                `;
+            }
+        }
+
+        function addToHistory(originalName, copyName, similarity) {
+            const historyTableBody = document.getElementById('historyTableBody');
+            const newRow = document.createElement('tr');
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = new Date().toLocaleDateString();
+
+            const originalCell = document.createElement('td');
+            originalCell.textContent = originalName;
+
+            const copyCell = document.createElement('td');
+            copyCell.textContent = copyName;
+
+            const similarityCell = document.createElement('td');
+            similarityCell.textContent = `${similarity.toFixed(2)}%`;
+
+            newRow.appendChild(dateCell);
+            newRow.appendChild(originalCell);
+            newRow.appendChild(copyCell);
+            newRow.appendChild(similarityCell);
+            historyTableBody.appendChild(newRow);
+        }
+         // Логика премиум-подписки
+         const subscribeButton = document.getElementById('subscribeButton');
+        const premiumModal = document.getElementById('premiumModal');
+        const closePremiumModal = document.getElementById('closePremiumModal');
+        const buyPremiumButton = document.getElementById('buyPremiumButton');
+
+        let isPremiumUser = false; // По умолчанию пользователь не премиум
+
+        // Открытие модального окна
+        subscribeButton.addEventListener('click', () => {
+            premiumModal.style.display = 'flex';
+        });
+
+        // Закрытие модального окна
+        closePremiumModal.addEventListener('click', () => {
+            premiumModal.style.display = 'none';
+        });
+
+        // Покупка премиум-подписки
+        buyPremiumButton.addEventListener('click', () => {
+            // Здесь можно добавить интеграцию с платежной системой
+            isPremiumUser = true;
+            alert('Поздравляем! Теперь у вас есть доступ к премиум-функциям.');
+            premiumModal.style.display = 'none';
+            updatePremiumFeatures();
+        });
+
+        // Обновление доступных функций для премиум-пользователей
+        function updatePremiumFeatures() {
+            if (isPremiumUser) {
+                // Включаем премиум-функции
+                graphicalVisualizationSection.style.display = 'block';
+                analyticsSection.style.display = 'block';
+                criticalAnalysisSection.style.display = 'block';
+                subscribeButton.textContent = 'Премиум активен';
+                subscribeButton.disabled = true;
+                subscribeButton.style.backgroundColor = '#4caf50'; // Зеленый цвет для активной подписки
+            } else {
+                // Ограничиваем доступ к премиум-функциям
+                graphicalVisualizationSection.style.display = 'none';
+                analyticsSection.style.display = 'none';
+                criticalAnalysisSection.style.display = 'none';
+            }
+        }
+
+        // Проверка статуса пользователя при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePremiumFeatures();
+        });
+
+        // Логика проверки для премиум-пользователей
+        checkPlagiarismButton.addEventListener('click', async () => {
+            if (!isPremiumUser) {
+                alert('Для доступа к расширенным функциям перейдите на премиум-подписку.');
+                return;
+            }
+
+            const originalText = await readFile(originalFile);
+            const copyText = await readFile(copyFile);
+
+            // Улучшенная проверка для премиум-пользователей
+            const { similarity, highlightedOriginal, highlightedCopy } = compareTexts(originalText, copyText);
+            const criticalChanges = findCriticalChanges(originalText, copyText);
+
+            // Отображаем результаты
+            originalTextContent.innerHTML = highlightedOriginal;
+            copyTextContent.innerHTML = highlightedCopy;
+            plagiarismResult.textContent = `Сходство текстов: ${similarity.toFixed(2)}%`;
+
+            // Дополнительная аналитика для премиум-пользователей
+            displayCriticalChanges(criticalChanges);
+            addToHistory(originalFile.name, copyFile.name, similarity);
+        });
+        // Получаем данные пользователя из localStorage
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        // Если данные есть, отображаем их в профиле
+        if (userData) {
+            document.getElementById('userName').textContent = userData.username;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('registrationDate').textContent = `Дата регистрации: ${userData.registrationDate}`;
+        } else {
+            // Если данных нет, перенаправляем на страницу регистрации
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
