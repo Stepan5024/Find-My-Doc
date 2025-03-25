@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find My Document - Регистрация/Вход</title>
+    <style>
+        /* Основные стили */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: #f5f5f7;
+            color: #333333;
+        }
+
+        /* Шапка сайта */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin: 0;
+            animation: fadeIn 1s ease;
+        }
+
+        body.light-mode .header h1 {
+            color: #333333;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #bb86fc;
+            margin-top: 0.5rem;
+        }
+
+        body.light-mode .header p {
+            color: #6200ea;
+        }
+
+        /* Контейнер с формами */
+        .container {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        body.light-mode .container {
+            background-color: #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        body.light-mode h2 {
+            color: #333333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #bb86fc;
+        }
+
+        body.light-mode label {
+            color: #6200ea;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            background-color: #333333;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode input[type="text"],
+        body.light-mode input[type="password"],
+        body.light-mode input[type="email"] {
+            background-color: #f5f5f7;
+            border-color: #e0e0e0;
+            color: #333333;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #bb86fc;
+        }
+
+        body.light-mode input[type="text"]:focus,
+        body.light-mode input[type="password"]:focus,
+        body.light-mode input[type="email"]:focus {
+            border-color: #6200ea;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #bb86fc;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        body.light-mode button {
+            background-color: #6200ea;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #aaaaaa;
+        }
+
+        body.light-mode .switch-form {
+            color: #666666;
+        }
+
+        .switch-form a {
+            color: #bb86fc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .switch-form a {
+            color: #6200ea;
+        }
+
+        .switch-form a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        body.light-mode .switch-form a:hover {
+            color: #333333;
+        }
+
+        /* Анимация переключения форм */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-animation {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <div class="header">
+        <h1>Find My Document</h1>
+        <p>Надежная проверка документов на плагиат</p>
+    </div>
+
+    <!-- Контейнер с формами -->
+    <div class="container">
+        <!-- Форма регистрации -->
+        <div id="register-form" class="form-animation">
+            <h2>Создать аккаунт</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+            <div class="switch-form">
+                Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a>
+            </div>
+        </div>
+
+        <!-- Форма входа (скрыта по умолчанию) -->
+        <div id="login-form" style="display: none;" class="form-animation">
+            <h2>Войти в аккаунт</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login-username">Имя пользователя</label>
+                    <input type="text" id="login-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit">Войти</button>
+            </form>
+            <div class="switch-form">
+                Нет аккаунта? <a href="#" onclick="showRegister()">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функции для переключения форм
+        function showLogin() {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+
+        function showRegister() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+        }
+
+        // Переключение темы
+        const body = document.body;
+        const themeSwitch = document.createElement('button');
+        themeSwitch.textContent = '🌙';
+        themeSwitch.style.position = 'fixed';
+        themeSwitch.style.top = '1rem';
+        themeSwitch.style.right = '1rem';
+        themeSwitch.style.background = 'none';
+        themeSwitch.style.border = 'none';
+        themeSwitch.style.cursor = 'pointer';
+        themeSwitch.style.fontSize = '1.5rem';
+        themeSwitch.style.color = '#ffffff';
+        themeSwitch.style.transition = 'color 0.3s ease';
+        body.appendChild(themeSwitch);
+        themeSwitch.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+            if (body.classList.contains('light-mode')) {
+                themeSwitch.textContent = '🌞';
+                themeSwitch.style.color = '#333333';
+            } else {
+                themeSwitch.textContent = '🌙';
+                themeSwitch.style.color = '#ffffff';
+            }
+        });
+
+        // Восстановление темы при загрузке страницы
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            themeSwitch.textContent = '🌞';
+            themeSwitch.style.color = '#333333';
+        }
+
+        // Обработчик для формы регистрации
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Сохраняем данные в localStorage
+            const userData = {
+                username: username,
+                email: email,
+                password: password,
+                registrationDate: new Date().toLocaleString()
+            };
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Перенаправляем на страницу main.html
+            window.location.href = 'main.html';
+        });
+
+        // Обработчик для формы входа
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            // Проверяем данные из localStorage
+            const storedUserData = JSON.parse(localStorage.getItem('userData'));
+            if (storedUserData && storedUserData.username === username && storedUserData.password === password) {
+                window.location.href = 'main.html'; // Перенаправляем на страницу main.html
+            } else {
+                alert('Неверное имя пользователя или пароль!');
+            }
+        });
+    </script>
+</body>
+</html>
